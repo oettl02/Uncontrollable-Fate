@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] Animator animator;
+
     public Rigidbody2D rigidBody;
 
     public Vector2 startPos;
@@ -20,18 +22,29 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        //Player Movement
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
             sideMultiplier = getMultiplier();
+            //Animation
+            if(sideMultiplier >= 1) { animator.SetTrigger("MoveRight"); }
+            else { animator.SetTrigger("MoveLeft"); }
         }
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
             sideMultiplier = getMultiplier();
+            //Animation
+            if (sideMultiplier >= 1) { animator.SetTrigger("MoveLeft"); }
+            else { animator.SetTrigger("MoveRight"); }
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             jumpMultiplier = getMultiplier();
+
+            //Animation
+            if(jumpMultiplier >=1) { animator.SetTrigger("Jump"); }
+            
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
@@ -48,6 +61,7 @@ public class PlayerController : MonoBehaviour
         {
             if (isGrounded)
             {
+                //Player Jump
                 Vector2 currentVelocity = rigidBody.velocity;
                 rigidBody.velocity = new Vector2(currentVelocity.x, jumpSpeed * jumpMultiplier);
             }
