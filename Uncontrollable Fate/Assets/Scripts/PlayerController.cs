@@ -20,6 +20,8 @@ public class PlayerController : MonoBehaviour
 
     public float chance = 0.1f;
 
+    public UIHandler UI;
+
     void Update()
     {
         //Player Movement
@@ -71,12 +73,13 @@ public class PlayerController : MonoBehaviour
         if (transform.position.y < -5)
         {
             transform.position = startPos;
+            UI.deaths++;
         }
     }
 
     int getMultiplier()
     {
-        if (Random.Range(0.0f, 1.0f) > chance) { return 1; } else { CameraShake.Instance.shake(1f, 1f); return -1; }
+        if (Random.Range(0.0f, 1.0f) > chance) { return 1; } else { CameraShake.Instance.shake(2f, .25f); return -1; }
     }
 
     void OnCollisionEnter2D(Collision2D other)
