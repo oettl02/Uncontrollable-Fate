@@ -34,15 +34,15 @@ public class PlayerController : MonoBehaviour
             jumpMultiplier = getMultiplier();
         }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             Vector2 currentVelocity = rigidBody.velocity;
             rigidBody.velocity = new Vector2(movementSpeed * sideMultiplier, currentVelocity.y);
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             Vector2 currentVelocity = rigidBody.velocity;
-            rigidBody.velocity = new Vector2(-movementSpeed * getMultiplier(), currentVelocity.y);
+            rigidBody.velocity = new Vector2(-movementSpeed * sideMultiplier, currentVelocity.y);
         }
         if (Input.GetKey(KeyCode.Space))
         {
@@ -61,7 +61,7 @@ public class PlayerController : MonoBehaviour
 
     int getMultiplier()
     {
-        if (Random.Range(0.0f, 1.0f) > chance) { return 1; } else { return -1; }
+        if (Random.Range(0.0f, 1.0f) > chance) { return 1; } else { CameraShake.Instance.shake(1f, 1f); return -1;}
     }
 
     void OnCollisionEnter2D(Collision2D other)
