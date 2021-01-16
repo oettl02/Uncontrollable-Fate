@@ -1,27 +1,42 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class elevatorController : MonoBehaviour
 {
-    [SerializeField] Animator animator;
+    [SerializeField] float waitForSeconds;
 
-    public SpriteRenderer spriteRenderer;
+    private Animator animator;
+    private PlayerController playerMovement;
+    private GameObject playerLight;
 
-    public int currentSceneNum;
+    private IEnumerator coroutine;
 
-    void OnCollisionEnter2D(Collision2D collision)
+    private void Awake()
     {
-        //if (collision.gameObject.tag == "elevator")
-        //{
-        //    spriteRenderer.sortingOrder = 4;
-        //    animator.SetTrigger("Close");
-        //}
-        if (collision.gameObject.tag == "elevator")
+        animator = GameObject.FindGameObjectWithTag("elevator").GetComponent<Animator>();
+        playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        playerLight = GameObject.FindGameObjectWithTag("playerLight");
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        Debug.Log("Entered" + collision.gameObject.name);
+        if (collision.gameObject.name.Equals("GameObject"))
         {
-            SceneManager.LoadScene(currentSceneNum + 1);
+            Destroy(playerLight);
+            playerMovement.enabled = false;
+            animator.SetTrigger("Close");
+            coroutine = nextLevel(waitForSeconds);
+            StartCoroutine(coroutine);
         }
-            
+
+    }
+
+    private IEnumerator nextLevel(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

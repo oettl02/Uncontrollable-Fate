@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ground
   - elevator
+  - playerLight
   layers:
   - Default
   - TransparentFX

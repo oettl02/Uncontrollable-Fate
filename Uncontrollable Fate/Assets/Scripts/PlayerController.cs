@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] Animator animator;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip respawn;
 
     public Rigidbody2D rigidBody;
 
@@ -72,6 +74,7 @@ public class PlayerController : MonoBehaviour
 
         if (transform.position.y < -5)
         {
+            audioSource.PlayOneShot(respawn, 0.5f);
             transform.position = startPos;
             UI.deaths++;
         }
